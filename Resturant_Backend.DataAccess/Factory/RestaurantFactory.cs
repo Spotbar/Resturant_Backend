@@ -15,7 +15,7 @@ namespace Resturant_Backend.DataAccess.Factory
       string? mobile = null,
       string? address = null)
         {
-            string phoneNummberPattern = @"^[0][1-9]\d{9}$|^[1-9]\d{9}$";
+            string phoneNummberPattern = @"^0[1-9]\d{9}$";
             Regex rg = new Regex(phoneNummberPattern);
 
             if (string.IsNullOrEmpty(name))

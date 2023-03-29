@@ -39,7 +39,7 @@ namespace Resturant_Backend.Domain.DbContexts
             var group2 = new Group() { Name = "لجستیک" };
 
             var user1 = new User() { Name = "حسن الفت",NationalCode = "3240486611",JoinDate=DateTimeOffset.Now,IsEnable=true,Password="" };
-            var user2 = new User() { Name = "الهام شهری", NationalCode = "", JoinDate = DateTimeOffset.Now, IsEnable = true, Password = "" };
+            var user2 = new User() { Name = "الهام شهری", NationalCode = "3240812282", JoinDate = DateTimeOffset.Now, IsEnable = true, Password = "" };
 
             var userGroup1 = new UserGroup() { GroupId = group1.Id ,UserId= user1.Id };
             var userGroup2 = new UserGroup() { GroupId = group1.Id, UserId = user2.Id };

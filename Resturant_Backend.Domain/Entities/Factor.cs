@@ -12,6 +12,7 @@ namespace Resturant_Backend.Domain.Entities
 
         public DateTimeOffset FactorDate { get; set; }
         [Required]
+        
         public long DeliveryCost { get; set; }
         [Required]
         public long FactorAmount { get; set; }
