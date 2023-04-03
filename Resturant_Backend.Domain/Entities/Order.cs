@@ -8,7 +8,7 @@ namespace Resturant_Backend.Domain.Entities
     {
 
         [Required]
-        public required string Name { get; set; }
+        public  string Name { get; set; }
         [Required]
         public long Cost { get; set; }
       

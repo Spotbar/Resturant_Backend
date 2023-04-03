@@ -7,7 +7,7 @@ namespace Resturant_Backend.Domain.Entities
     {
 
         [Required]
-        public required string Year { get; set; }
+        public  string Year { get; set; }
         [Required]
         public int Amount { get; set; }
         [Required]

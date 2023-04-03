@@ -7,7 +7,7 @@ namespace Resturant_Backend.Domain.Entities
     public class Wallet : Base
     {
         [Required]
-        public required string Username { get; set; }
+        public  string Username { get; set; }
         [Required]
         public long Amonut { get; set; }
 
@@ -19,10 +19,10 @@ namespace Resturant_Backend.Domain.Entities
 
 
         [Required]
-        public Guid UserId { get; set; }
+        public string UserId { get; set; }
 
         [ForeignKey(nameof(UserId))]
-        public virtual User? User { get; set; }
+        public virtual ApplicationUser? User { get; set; }
 
 
         [Required]

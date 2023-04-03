@@ -7,14 +7,21 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Enums\" />
+    <Compile Remove="Entities\Group.cs" />
+    <Compile Remove="Entities\User.cs" />
+    <Compile Remove="Entities\UserGroup.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="Errors\" />
+    <Folder Include="Migrations\" />
     <Folder Include="ValueObjects\" />
     <Folder Include="Shared\" />
     <Folder Include="Primitives\" />
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="7.0.4" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.4" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="7.0.4" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.4" />

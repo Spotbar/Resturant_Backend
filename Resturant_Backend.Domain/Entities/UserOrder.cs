@@ -13,10 +13,10 @@ namespace Resturant_Backend.Domain.Entities
         public virtual Order? Order { get; set; }
 
         [Required]
-        public Guid UserId { get; set; }
+        public string UserId { get; set; }
 
         [ForeignKey(nameof(UserId))]
-        public virtual User? User { get; set; }
+        public virtual ApplicationUser? User { get; set; }
 
         public long Amount { get; set; }
 
