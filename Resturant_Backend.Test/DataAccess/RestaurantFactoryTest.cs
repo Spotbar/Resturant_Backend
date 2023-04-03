@@ -6,12 +6,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Resturant_Backend.Test
+namespace Resturant_Backend.DataAccess.Test
 {
-    public class RestaurantFactoryTest 
+    public class UserManagerServiceTest 
     {
         private RestaurantFactory _restaurantFactory;
-        public RestaurantFactoryTest()
+        public UserManagerServiceTest()
         {
             _restaurantFactory = new RestaurantFactory();
         }
