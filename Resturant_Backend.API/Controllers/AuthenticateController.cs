@@ -33,12 +33,12 @@ namespace Resturant_Backend.API.Controllers
 
             switch (register.Status)
             {
-                case Domain.Enums.eResponseStatus.Already:
+                case Domain.Enums.eResponseStatus.Success:
                     return Ok(register);
 
                 case Domain.Enums.eResponseStatus.Failed:
                     return StatusCode(StatusCodes.Status500InternalServerError, register);
-                case Domain.Enums.eResponseStatus.Success:
+                case Domain.Enums.eResponseStatus.Already:
                     return StatusCode(StatusCodes.Status500InternalServerError, register);
                 default:
                     return StatusCode(StatusCodes.Status500InternalServerError);
@@ -58,6 +58,7 @@ namespace Resturant_Backend.API.Controllers
             {
                 case Domain.Enums.eResponseStatus.Success:
                     return Ok(register);
+
                 case Domain.Enums.eResponseStatus.Failed:
                     return StatusCode(StatusCodes.Status500InternalServerError, register);
                 case Domain.Enums.eResponseStatus.Already:

@@ -24,12 +24,13 @@ namespace Resturant_Backend.Test
         [Fact]
         [Trait("Category", "Login")]
       
-        public void  Login()
+        public  void   Login()
         {
 
             // Act 
             var model = new DataAccess.Models.Auth.LoginModel() { Username = "3240486611", Password = "S@ber09187315779" };
-           var login = mock.Setup(p => p.Login(model)).CallBase;
+            var token = new DataAccess.Models.Auth.TokenModel() { Token = "", Expiration = DateTime.Now };
+           var login = mock.Setup(p => p.Login(model)).Returns( Task.FromResult(token));
             
                  //Act && Assert
              Assert.NotNull(login);

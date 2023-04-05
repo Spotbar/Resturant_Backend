@@ -2,7 +2,10 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using Resturant_Backend.Business;
 using Resturant_Backend.Domain.DbContexts;
 using Resturant_Backend.Domain.Entities;
@@ -26,8 +29,8 @@ namespace Resturant_Backend.API
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
-
-
+            builder.Services.AddHttpClient();
+            builder.Services.AddMvc();
             // Database & Authorization
             builder.Services.AddDbContext<ApplicationDBContext>(options =>
             {
@@ -88,7 +91,7 @@ namespace Resturant_Backend.API
                 app.UseSwaggerUI();
             }
 
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
             app.UseGraphQLGraphiQL("/ui/graphql");
 
             app.UseAuthentication();
