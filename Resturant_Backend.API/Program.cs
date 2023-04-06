@@ -69,7 +69,7 @@ namespace Resturant_Backend.API
                 options.UseSqlServer(builder.Configuration.GetConnectionString("SqlServerDatabase"));
             });
 
-            builder.Services.AddIdentity<IdentityUser, IdentityRole>(options => {
+            builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options => {
                 options.Password.RequireUppercase = true; // on production add more secured options
                 options.Password.RequireDigit = true;
                 options.SignIn.RequireConfirmedEmail = true;

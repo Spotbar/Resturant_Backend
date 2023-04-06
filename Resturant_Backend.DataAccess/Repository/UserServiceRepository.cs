@@ -9,10 +9,10 @@ namespace Resturant_Backend.DataAccess.Repository
 {
     public class UserServiceRepository : IUserServiceRepository
     {
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly UserManager<ApplicationUser> _userManager;
         private readonly ApplicationDBContext _db;
 
-        public UserServiceRepository(UserManager<IdentityUser> userManager, ApplicationDBContext db)
+        public UserServiceRepository(UserManager<ApplicationUser> userManager, ApplicationDBContext db)
         {
             this._userManager = userManager;
             this._db = db;

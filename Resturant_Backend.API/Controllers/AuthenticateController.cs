@@ -13,17 +13,17 @@ namespace Resturant_Backend.API.Controllers
     public class AuthenticateController : ControllerBase
     {
         // private readonly IUserManagerService _userManager;
-        private readonly IJWTManagerRepository jWTManager;
-        private readonly IUserServiceRepository userServiceRepository;
+        private readonly IJWTManagerRepository _jWTManager;
+        private readonly IUserServiceRepository _userServiceRepository;
         public AuthenticateController(
-            IUserManagerService userManager,
-            IJWTManagerRepository jWTManager
-            //IUserServiceRepository userServiceRepository
+           // IUserManagerService userManager,
+            IJWTManagerRepository jWTManager,
+            IUserServiceRepository userServiceRepository
             )
         {
             //  _userManager = userManager;
-            this.jWTManager = jWTManager;
-            this.userServiceRepository = userServiceRepository;
+            this._jWTManager = jWTManager;
+            this._userServiceRepository = userServiceRepository;
         }
         //[HttpPost]
         //[Route("register")]
@@ -114,14 +114,14 @@ namespace Resturant_Backend.API.Controllers
         [Route("authenticate")]
         public async Task<IActionResult> AuthenticateAsync(LoginModel usersdata)
         {
-            var validUser = await userServiceRepository.IsValidUserAsync(usersdata);
+            var validUser = await _userServiceRepository.IsValidUserAsync(usersdata);
 
             if (!validUser)
             {
                 return Unauthorized("Incorrect username or password!");
             }
 
-            var token = jWTManager.GenerateToken(usersdata.Username);
+            var token = _jWTManager.GenerateToken(usersdata.Username);
 
             if (token == null)
             {
@@ -135,8 +135,8 @@ namespace Resturant_Backend.API.Controllers
                 UserName = usersdata.Username
             };
 
-            userServiceRepository.AddUserRefreshTokens(obj);
-            userServiceRepository.SaveCommit();
+            _userServiceRepository.AddUserRefreshTokens(obj);
+            _userServiceRepository.SaveCommit();
             return Ok(token);
         }
 
@@ -145,18 +145,18 @@ namespace Resturant_Backend.API.Controllers
         [Route("refresh")]
         public IActionResult Refresh(Tokens token)
         {
-            var principal = jWTManager.GetPrincipalFromExpiredToken(token.Access_Token);
+            var principal = _jWTManager.GetPrincipalFromExpiredToken(token.Access_Token);
             var username = principal.Identity?.Name;
 
             //retrieve the saved refresh token from database
-            var savedRefreshToken = userServiceRepository.GetSavedRefreshTokens(username, token.Refresh_Token);
+            var savedRefreshToken = _userServiceRepository.GetSavedRefreshTokens(username, token.Refresh_Token);
 
             if (savedRefreshToken.RefreshToken != token.Refresh_Token)
             {
                 return Unauthorized("Invalid attempt!");
             }
 
-            var newJwtToken = jWTManager.GenerateRefreshToken(username);
+            var newJwtToken = _jWTManager.GenerateRefreshToken(username);
 
             if (newJwtToken == null)
             {
@@ -170,9 +170,9 @@ namespace Resturant_Backend.API.Controllers
                 UserName = username
             };
 
-            userServiceRepository.DeleteUserRefreshTokens(username, token.Refresh_Token);
-            userServiceRepository.AddUserRefreshTokens(obj);
-            userServiceRepository.SaveCommit();
+            _userServiceRepository.DeleteUserRefreshTokens(username, token.Refresh_Token);
+            _userServiceRepository.AddUserRefreshTokens(obj);
+            _userServiceRepository.SaveCommit();
 
             return Ok(newJwtToken);
         }
@@ -182,7 +182,7 @@ namespace Resturant_Backend.API.Controllers
         [Route("register")]
         public async Task<IActionResult> Register([FromBody] RegisterModel model)
         {
-            var register = await userServiceRepository.Register(model);
+            var register = await _userServiceRepository.Register(model);
 
             switch (register.Status)
             {
