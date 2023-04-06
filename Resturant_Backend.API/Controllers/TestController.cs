@@ -20,30 +20,16 @@ namespace Resturant_Backend.API.Controllers
             _logger = logger;
            
         }
-        [Authorize(Roles = nameof(UserRoles.Admin))]
-        [HttpGet(Name = "Get_Admin_Test")]
+        //[Authorize(Roles = nameof(UserRoles.Admin))]
+        [Authorize]
+        [HttpGet(Name = "Get")]
        
-        public IActionResult Get_Admin()
+        public IActionResult Get()
         {
 
-            return Ok("hello Admin");
+            return Ok("hello");
         }
 
-       // [Authorize]
-        //[HttpGet(Name = "Get_Authorize_Test")]
-       // [Route("Get_Authorize")]
-        //public IActionResult Get_Authorize()
-        //{
-
-        //    return Ok("hello Authorize");
-        //}
-
-        //[HttpGet(Name = "Get_Test")]
-        //[Route("Get")]
-        //public IActionResult Get()
-        //{
-
-        //    return Ok("hello Authorize");
-        //}
+       
     }
 }

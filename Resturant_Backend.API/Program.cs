@@ -8,8 +8,10 @@ using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Resturant_Backend.Business;
+using Resturant_Backend.DataAccess.Repository;
 using Resturant_Backend.Domain.DbContexts;
 using Resturant_Backend.Domain.Entities;
+using System;
 using System.Reflection;
 using System.Text;
 using System.Text.Json.Serialization;
@@ -67,42 +69,64 @@ namespace Resturant_Backend.API
                 options.UseSqlServer(builder.Configuration.GetConnectionString("SqlServerDatabase"));
             });
 
-
-            builder.Services.AddDefaultIdentity<ApplicationUser>(
-                options => options.SignIn.RequireConfirmedAccount = false)
-                .AddRoles<IdentityRole>()
-                //.AddUserStore<UserStore>()
-                .AddEntityFrameworkStores<ApplicationDBContext>()
-                .AddDefaultTokenProviders(); ;
+            builder.Services.AddIdentity<IdentityUser, IdentityRole>(options => {
+                options.Password.RequireUppercase = true; // on production add more secured options
+                options.Password.RequireDigit = true;
+                options.SignIn.RequireConfirmedEmail = true;
+            }).AddEntityFrameworkStores<ApplicationDBContext>().AddDefaultTokenProviders();
+            //builder.Services.AddDefaultIdentity<ApplicationUser>(
+            //    options =>
+            //    {
+            //        options.SignIn.RequireConfirmedAccount = false;
+            //        options.Password.RequireUppercase = false; // on production add more secured options
+            //        options.Password.RequireDigit = false;
+            //    })
+            //    .AddRoles<IdentityRole>()
+            //    //.AddUserStore<UserStore>()
+            //    .AddEntityFrameworkStores<ApplicationDBContext>()
+            //    .AddDefaultTokenProviders(); 
 
 
 
 
             // Adding Authentication  
-            builder.Services.AddAuthentication(options =>
+            builder.Services.AddAuthentication(x =>
             {
-                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-                options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
             })
-
-            // Adding Jwt Bearer  
-            .AddJwtBearer(options =>
+                .AddJwtBearer(o =>
             {
-                options.SaveToken = true;
-                options.RequireHttpsMetadata = false;
-                options.TokenValidationParameters = new TokenValidationParameters()
+                var Key = Encoding.UTF8.GetBytes(builder.Configuration["JWT:Key"]);
+                o.SaveToken = true;
+                o.TokenValidationParameters = new TokenValidationParameters
                 {
-                    ValidateIssuer = true,
-                    ValidateAudience = true,
-                    ValidAudience = builder.Configuration["JWT:ValidAudience"],
-                    ValidIssuer = builder.Configuration["JWT:ValidIssuer"],
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JWT:Secret"]))
+                    ValidateIssuer = false, // on production make it true
+                    ValidateAudience = false, // on production make it true
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
+                    ValidIssuer = builder.Configuration["JWT:Issuer"],
+                    ValidAudience = builder.Configuration["JWT:Audience"],
+                    IssuerSigningKey = new SymmetricSecurityKey(Key),
+                    ClockSkew = TimeSpan.Zero
+                };
+                o.Events = new JwtBearerEvents
+                {
+                    OnAuthenticationFailed = context =>
+                    {
+                        if (context.Exception.GetType() == typeof(SecurityTokenExpiredException))
+                        {
+                            context.Response.Headers.Add("IS-TOKEN-EXPIRED", "true");
+                        }
+                        return Task.CompletedTask;
+                    }
                 };
             });
 
-            builder.Services.AddScoped<IUserManagerService, UserManagerService>();
-
+          
+            builder.Services.AddSingleton<IJWTManagerRepository, JWTManagerRepository>();
+            builder.Services.AddScoped<IUserServiceRepository, UserServiceRepository>();
+            //builder.Services.AddScoped<IUserManagerService, UserManagerService>();
             //  builder.Services.AddScoped<UserManager<ApplicationUser>, UserManager<ApplicationUser>>();
             //builder.Services.AddScoped<IUserManagerRepository, UserManagerRepository>();
             //builder.Services.AddScoped<IUserService, UserService>();

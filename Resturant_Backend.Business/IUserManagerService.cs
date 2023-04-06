@@ -1,4 +1,5 @@
-﻿using Resturant_Backend.DataAccess.Models.Auth;
+﻿using Resturant_Backend.DataAccess.Models;
+using Resturant_Backend.DataAccess.Models.Auth;
 
 namespace Resturant_Backend.Business
 {
@@ -6,7 +7,7 @@ namespace Resturant_Backend.Business
     {
 
 
-        Task<TokenModel?> Login(LoginModel model);
+        Task<Tokens?> Login(LoginModel model);
         Task<Response> Register(RegisterModel model);
         Task<Response> AdminRegister(RegisterModel model);
     }
