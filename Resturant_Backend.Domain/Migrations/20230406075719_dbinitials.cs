@@ -3,12 +3,10 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
-
 namespace Resturant_Backend.Domain.Migrations
 {
     /// <inheritdoc />
-    public partial class init : Migration
+    public partial class dbinitials : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -32,9 +30,10 @@ namespace Resturant_Backend.Domain.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Post = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    NationalCode = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    LastName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    Post = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    NationalCode = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -86,6 +85,21 @@ namespace Resturant_Backend.Domain.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "UserRefreshToken",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    RefreshToken = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserRefreshToken", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "AspNetRoleClaims",
                 columns: table => new
                 {
@@ -131,8 +145,8 @@ namespace Resturant_Backend.Domain.Migrations
                 name: "AspNetUserLogins",
                 columns: table => new
                 {
-                    LoginProvider = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
-                    ProviderKey = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
+                    LoginProvider = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    ProviderKey = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     ProviderDisplayName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
@@ -176,8 +190,8 @@ namespace Resturant_Backend.Domain.Migrations
                 columns: table => new
                 {
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    LoginProvider = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
+                    LoginProvider = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Value = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
@@ -263,44 +277,6 @@ namespace Resturant_Backend.Domain.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.InsertData(
-                table: "DateCredits",
-                columns: new[] { "Id", "Amount", "IsEnable", "Year" },
-                values: new object[,]
-                {
-                    { new Guid("b7bdb00a-f5a8-4eaf-982a-4234fd6c5c69"), 100000, false, "1401" },
-                    { new Guid("d294237a-91b2-4745-93fe-9faec2053c1d"), 100000, true, "1402" }
-                });
-
-            migrationBuilder.InsertData(
-                table: "Restaurants",
-                columns: new[] { "Id", "Address", "Mobile", "Name", "OpratorName", "Tel" },
-                values: new object[,]
-                {
-                    { new Guid("11d91011-eba9-4f09-9d5f-b3d30c22c1c2"), null, null, "باغ گیلاس", null, "0831" },
-                    { new Guid("3db8b667-5d64-4e47-9b85-e061cc4493a3"), null, null, "پارسی", null, "0831" },
-                    { new Guid("5815d7a8-7789-4db9-af87-adead0053795"), null, null, "گلی خانم", null, "0831" }
-                });
-
-            migrationBuilder.InsertData(
-                table: "Factors",
-                columns: new[] { "Id", "DeliveryCost", "FactorAmount", "FactorDate", "FactorNummber", "IsClosed", "IsDeliveryByCompany", "RestaurantId" },
-                values: new object[,]
-                {
-                    { new Guid("18035fc9-a5e2-478d-9f22-2e4bf5d84096"), 15000L, 200000L, new DateTimeOffset(new DateTime(2023, 3, 30, 21, 13, 36, 460, DateTimeKind.Unspecified).AddTicks(3014), new TimeSpan(0, 3, 30, 0, 0)), "-1", false, false, new Guid("3db8b667-5d64-4e47-9b85-e061cc4493a3") },
-                    { new Guid("26f8653c-56b2-4e53-970d-cd36852e9987"), 15000L, 200000L, new DateTimeOffset(new DateTime(2023, 3, 30, 21, 13, 36, 460, DateTimeKind.Unspecified).AddTicks(3011), new TimeSpan(0, 3, 30, 0, 0)), "-1", false, false, new Guid("11d91011-eba9-4f09-9d5f-b3d30c22c1c2") },
-                    { new Guid("6dd3bbb3-00a3-43c2-936c-cbacff8ee58b"), 15000L, 200000L, new DateTimeOffset(new DateTime(2023, 3, 30, 21, 13, 36, 460, DateTimeKind.Unspecified).AddTicks(2970), new TimeSpan(0, 3, 30, 0, 0)), "-1", false, false, new Guid("5815d7a8-7789-4db9-af87-adead0053795") }
-                });
-
-            migrationBuilder.InsertData(
-                table: "Orders",
-                columns: new[] { "Id", "Cost", "FactorId", "IsAccept", "IsShared", "Name" },
-                values: new object[,]
-                {
-                    { new Guid("01610b88-cc55-4581-8790-43aaa7b077bf"), 800000L, new Guid("6dd3bbb3-00a3-43c2-936c-cbacff8ee58b"), true, true, "عدس پلو" },
-                    { new Guid("b092f347-0c4a-40b8-b4ce-bf4aa050e35a"), 120000L, new Guid("6dd3bbb3-00a3-43c2-936c-cbacff8ee58b"), true, false, "کوبیده" }
-                });
-
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -384,6 +360,9 @@ namespace Resturant_Backend.Domain.Migrations
 
             migrationBuilder.DropTable(
                 name: "UserOrders");
+
+            migrationBuilder.DropTable(
+                name: "UserRefreshToken");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");

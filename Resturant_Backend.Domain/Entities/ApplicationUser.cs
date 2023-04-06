@@ -9,12 +9,18 @@ namespace Resturant_Backend.Domain.Entities
     public class ApplicationUser : IdentityUser
     {
         [Required]
+        [MaxLength(50)]
         public  string Name { get; set; }
+        [Required]
+        [MaxLength(50)]
+        public string LastName { get; set; }
 
         // [Required]
+        [MaxLength(50)]
         public string? Post { get; set; }
 
         [Required]
+        [MaxLength(10)]
         public  string NationalCode { get; set; }
 
        

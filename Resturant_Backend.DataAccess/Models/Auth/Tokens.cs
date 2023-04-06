@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace Resturant_Backend.DataAccess.Models.Auth
 {
-    public class TokenModel
+    public class Tokens
     {
-       
-        public string Token { get; set; }
 
+        public string Access_Token { get; set; }
+        public string Refresh_Token { get; set; }
         public DateTime Expiration { get; set; }
     }
 }

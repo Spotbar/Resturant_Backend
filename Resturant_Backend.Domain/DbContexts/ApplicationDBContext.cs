@@ -26,6 +26,7 @@ namespace Resturant_Backend.Domain.DbContexts
         public DbSet<Factor> Factors { get; set; } = null!;
         public DbSet<Order> Orders { get; set; } = null!;
         public DbSet<UserOrder> UserOrders { get; set; } = null!;
+        public  DbSet<UserRefreshTokens> UserRefreshToken { get; set; }
 
         public ApplicationDBContext(DbContextOptions<ApplicationDBContext> options)
         : base(options)
@@ -48,43 +49,43 @@ namespace Resturant_Backend.Domain.DbContexts
            // var userGroup2 = new UserGroup() { GroupId = group1.Id, UserId = user2.Id };
 
 
-            var restuarant1 = new Restaurant( "گلی خانم", "0831") ;
-            var restuarant2 = new Restaurant("باغ گیلاس",   "0831") ;
-            var restuarant3 = new Restaurant("پارسی", "0831");
+            //var restuarant1 = new Restaurant( "گلی خانم", "0831") ;
+            //var restuarant2 = new Restaurant("باغ گیلاس",   "0831") ;
+            //var restuarant3 = new Restaurant("پارسی", "0831");
 
-            var factor1 = new Factor()
-            {
-                DeliveryCost = 15000,
-                FactorAmount = 200000,
-                FactorDate = DateTimeOffset.Now,
-                FactorNummber = "-1",
-                IsClosed = false,
-                IsDeliveryByCompany = false,
-                RestaurantId = restuarant1.Id
-            };
-            var factor2 = new Factor()
-            {
-                DeliveryCost = 15000,
-                FactorAmount = 200000,
-                FactorDate = DateTimeOffset.Now,
-                FactorNummber = "-1",
-                IsClosed = false,
-                IsDeliveryByCompany = false,
-                RestaurantId = restuarant2.Id
-            };
-            var factor3 = new Factor()
-            {
-                DeliveryCost = 15000,
-                FactorAmount = 200000,
-                FactorDate = DateTimeOffset.Now,
-                FactorNummber = "-1",
-                IsClosed = false,
-                IsDeliveryByCompany = false,
-                RestaurantId = restuarant3.Id
-            };
+            //var factor1 = new Factor()
+            //{
+            //    DeliveryCost = 15000,
+            //    FactorAmount = 200000,
+            //    FactorDate = DateTimeOffset.Now,
+            //    FactorNummber = "-1",
+            //    IsClosed = false,
+            //    IsDeliveryByCompany = false,
+            //    RestaurantId = restuarant1.Id
+            //};
+            //var factor2 = new Factor()
+            //{
+            //    DeliveryCost = 15000,
+            //    FactorAmount = 200000,
+            //    FactorDate = DateTimeOffset.Now,
+            //    FactorNummber = "-1",
+            //    IsClosed = false,
+            //    IsDeliveryByCompany = false,
+            //    RestaurantId = restuarant2.Id
+            //};
+            //var factor3 = new Factor()
+            //{
+            //    DeliveryCost = 15000,
+            //    FactorAmount = 200000,
+            //    FactorDate = DateTimeOffset.Now,
+            //    FactorNummber = "-1",
+            //    IsClosed = false,
+            //    IsDeliveryByCompany = false,
+            //    RestaurantId = restuarant3.Id
+            //};
 
-            var oredr1 = new Order() { Name = "کوبیده",Cost=120000,FactorId=factor1.Id,IsAccept=true,IsShared=false };
-            var oredr2 = new Order() { Name = "عدس پلو", Cost = 800000, FactorId = factor1.Id, IsAccept = true, IsShared = true };
+            //var oredr1 = new Order() { Name = "کوبیده",Cost=120000,FactorId=factor1.Id,IsAccept=true,IsShared=false };
+            //var oredr2 = new Order() { Name = "عدس پلو", Cost = 800000, FactorId = factor1.Id, IsAccept = true, IsShared = true };
 
             //var userOrder1 = new UserOrder() { UserId= user1.Id,OrderId=oredr1.Id,Amount= 120000 };
             //var userOrder2 = new UserOrder() { UserId = user2.Id, OrderId = oredr2.Id, Amount = 40000 };
@@ -98,27 +99,27 @@ namespace Resturant_Backend.Domain.DbContexts
             //modelBuilder.Entity<UserGroup>().HasData(userGroup1, userGroup2);
 
 
-            modelBuilder.Entity<DateCredit>()
-                .HasData(
-                    new DateCredit()
-                    {
+            //modelBuilder.Entity<DateCredit>()
+            //    .HasData(
+            //        new DateCredit()
+            //        {
 
-                        Year = "1401",
-                        Amount = 100000,
-                        IsEnable = false,
-                    },
-                    new DateCredit()
-                    {
-                        Year = "1402",
-                        Amount = 100000,
-                        IsEnable = true,
-                    }
-                );
-            modelBuilder.Entity<Restaurant>().HasData(restuarant1, restuarant2, restuarant3);
+            //            Year = "1401",
+            //            Amount = 100000,
+            //            IsEnable = false,
+            //        },
+            //        new DateCredit()
+            //        {
+            //            Year = "1402",
+            //            Amount = 100000,
+            //            IsEnable = true,
+            //        }
+            //    );
+            //modelBuilder.Entity<Restaurant>().HasData(restuarant1, restuarant2, restuarant3);
 
-            modelBuilder.Entity<Factor>().HasData(factor1, factor2, factor3);
-            modelBuilder.Entity<Order>().HasData(oredr1, oredr2);
-            //modelBuilder.Entity<UserOrder>().HasData(userOrder1, userOrder2, userOrder3);
+            //modelBuilder.Entity<Factor>().HasData(factor1, factor2, factor3);
+            //modelBuilder.Entity<Order>().HasData(oredr1, oredr2);
+            ////modelBuilder.Entity<UserOrder>().HasData(userOrder1, userOrder2, userOrder3);
 
             modelBuilder.Entity<IdentityRoleClaim<string>>().ToTable("RoleClaims");
             modelBuilder.Entity<IdentityUserClaim<string>>().ToTable("UserClaims");

@@ -20,15 +20,16 @@ namespace Resturant_Backend.API.Controllers
             _logger = logger;
            
         }
-        [Authorize(Roles = nameof(UserRoles.Admin))]
-        [HttpGet(Name = "GetTest")]
+        //[Authorize(Roles = nameof(UserRoles.Admin))]
+        [Authorize]
+        [HttpGet(Name = "Get")]
+       
         public IActionResult Get()
         {
 
             return Ok("hello");
         }
 
-      
-
+       
     }
 }

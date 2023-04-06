@@ -4,6 +4,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
+using Resturant_Backend.DataAccess.Models;
 using Resturant_Backend.DataAccess.Models.Auth;
 using Resturant_Backend.Domain.Entities;
 using Resturant_Backend.Domain.Enums;
@@ -37,7 +38,7 @@ namespace Resturant_Backend.Business
             _configuration = configuration;
         }
 
-        public async Task<TokenModel?> Login(LoginModel model)
+        public async Task<Tokens?> Login(LoginModel model)
         {
             var user = await userManager.FindByNameAsync(model.Username);
             if (user != null && await userManager.CheckPasswordAsync(user, model.Password))
@@ -65,9 +66,9 @@ namespace Resturant_Backend.Business
                     signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256)
                     );
 
-                return new TokenModel()
+                return new Tokens()
                 {
-                    Token = new JwtSecurityTokenHandler().WriteToken(token),
+                  //  Token = new JwtSecurityTokenHandler().WriteToken(token),
                     Expiration = token.ValidTo
                 };
             }
@@ -77,13 +78,14 @@ namespace Resturant_Backend.Business
 
         public async Task<Response> Register(RegisterModel model)
         {
-            var userExists = await userManager.FindByNameAsync(model.Username);
+            var userExists = await userManager.FindByNameAsync(model.NationalCode);
             if (userExists != null)
                 return new Response { Status = eResponseStatus.Already, Message = "User already exists!" };
 
             ApplicationUser user = new ApplicationUser()
             {
                 Name = model.Name,
+                LastName = model.LastName,
                 NationalCode = model.NationalCode,
                 PhoneNumber = model.PhoneNumber,
                 Post = model.Post,
@@ -109,7 +111,7 @@ namespace Resturant_Backend.Business
 
         public async Task<Response> AdminRegister(RegisterModel model)
         {
-            var userExists = await userManager.FindByNameAsync(model.Username);
+            var userExists = await userManager.FindByNameAsync(model.NationalCode);
             if (userExists != null)
                 return new Response { Status = eResponseStatus.Already, Message = "User already exists!" };
 

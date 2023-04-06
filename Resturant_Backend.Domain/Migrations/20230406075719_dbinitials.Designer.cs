@@ -12,8 +12,8 @@ using Resturant_Backend.Domain.DbContexts;
 namespace Resturant_Backend.Domain.Migrations
 {
     [DbContext(typeof(ApplicationDBContext))]
-    [Migration("20230330174342_init")]
-    partial class init
+    [Migration("20230406075719_dbinitials")]
+    partial class dbinitials
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -105,12 +105,10 @@ namespace Resturant_Backend.Domain.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
                     b.Property<string>("LoginProvider")
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ProviderKey")
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ProviderDisplayName")
                         .HasColumnType("nvarchar(max)");
@@ -147,12 +145,10 @@ namespace Resturant_Backend.Domain.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("LoginProvider")
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Name")
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Value")
                         .HasColumnType("nvarchar(max)");
@@ -181,6 +177,11 @@ namespace Resturant_Backend.Domain.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
 
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
 
@@ -189,11 +190,13 @@ namespace Resturant_Backend.Domain.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("NationalCode")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)");
 
                     b.Property<string>("NormalizedEmail")
                         .HasMaxLength(256)
@@ -213,7 +216,8 @@ namespace Resturant_Backend.Domain.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("Post")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
@@ -257,22 +261,6 @@ namespace Resturant_Backend.Domain.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("DateCredits");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("b7bdb00a-f5a8-4eaf-982a-4234fd6c5c69"),
-                            Amount = 100000,
-                            IsEnable = false,
-                            Year = "1401"
-                        },
-                        new
-                        {
-                            Id = new Guid("d294237a-91b2-4745-93fe-9faec2053c1d"),
-                            Amount = 100000,
-                            IsEnable = true,
-                            Year = "1402"
-                        });
                 });
 
             modelBuilder.Entity("Resturant_Backend.Domain.Entities.Factor", b =>
@@ -307,41 +295,6 @@ namespace Resturant_Backend.Domain.Migrations
                     b.HasIndex("RestaurantId");
 
                     b.ToTable("Factors");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("6dd3bbb3-00a3-43c2-936c-cbacff8ee58b"),
-                            DeliveryCost = 15000L,
-                            FactorAmount = 200000L,
-                            FactorDate = new DateTimeOffset(new DateTime(2023, 3, 30, 21, 13, 36, 460, DateTimeKind.Unspecified).AddTicks(2970), new TimeSpan(0, 3, 30, 0, 0)),
-                            FactorNummber = "-1",
-                            IsClosed = false,
-                            IsDeliveryByCompany = false,
-                            RestaurantId = new Guid("5815d7a8-7789-4db9-af87-adead0053795")
-                        },
-                        new
-                        {
-                            Id = new Guid("26f8653c-56b2-4e53-970d-cd36852e9987"),
-                            DeliveryCost = 15000L,
-                            FactorAmount = 200000L,
-                            FactorDate = new DateTimeOffset(new DateTime(2023, 3, 30, 21, 13, 36, 460, DateTimeKind.Unspecified).AddTicks(3011), new TimeSpan(0, 3, 30, 0, 0)),
-                            FactorNummber = "-1",
-                            IsClosed = false,
-                            IsDeliveryByCompany = false,
-                            RestaurantId = new Guid("11d91011-eba9-4f09-9d5f-b3d30c22c1c2")
-                        },
-                        new
-                        {
-                            Id = new Guid("18035fc9-a5e2-478d-9f22-2e4bf5d84096"),
-                            DeliveryCost = 15000L,
-                            FactorAmount = 200000L,
-                            FactorDate = new DateTimeOffset(new DateTime(2023, 3, 30, 21, 13, 36, 460, DateTimeKind.Unspecified).AddTicks(3014), new TimeSpan(0, 3, 30, 0, 0)),
-                            FactorNummber = "-1",
-                            IsClosed = false,
-                            IsDeliveryByCompany = false,
-                            RestaurantId = new Guid("3db8b667-5d64-4e47-9b85-e061cc4493a3")
-                        });
                 });
 
             modelBuilder.Entity("Resturant_Backend.Domain.Entities.Order", b =>
@@ -371,26 +324,6 @@ namespace Resturant_Backend.Domain.Migrations
                     b.HasIndex("FactorId");
 
                     b.ToTable("Orders");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("b092f347-0c4a-40b8-b4ce-bf4aa050e35a"),
-                            Cost = 120000L,
-                            FactorId = new Guid("6dd3bbb3-00a3-43c2-936c-cbacff8ee58b"),
-                            IsAccept = true,
-                            IsShared = false,
-                            Name = "کوبیده"
-                        },
-                        new
-                        {
-                            Id = new Guid("01610b88-cc55-4581-8790-43aaa7b077bf"),
-                            Cost = 800000L,
-                            FactorId = new Guid("6dd3bbb3-00a3-43c2-936c-cbacff8ee58b"),
-                            IsAccept = true,
-                            IsShared = true,
-                            Name = "عدس پلو"
-                        });
                 });
 
             modelBuilder.Entity("Resturant_Backend.Domain.Entities.Restaurant", b =>
@@ -419,26 +352,6 @@ namespace Resturant_Backend.Domain.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Restaurants");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("5815d7a8-7789-4db9-af87-adead0053795"),
-                            Name = "گلی خانم",
-                            Tel = "0831"
-                        },
-                        new
-                        {
-                            Id = new Guid("11d91011-eba9-4f09-9d5f-b3d30c22c1c2"),
-                            Name = "باغ گیلاس",
-                            Tel = "0831"
-                        },
-                        new
-                        {
-                            Id = new Guid("3db8b667-5d64-4e47-9b85-e061cc4493a3"),
-                            Name = "پارسی",
-                            Tel = "0831"
-                        });
                 });
 
             modelBuilder.Entity("Resturant_Backend.Domain.Entities.UserOrder", b =>
@@ -464,6 +377,30 @@ namespace Resturant_Backend.Domain.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("UserOrders");
+                });
+
+            modelBuilder.Entity("Resturant_Backend.Domain.Entities.UserRefreshTokens", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("RefreshToken")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("UserRefreshToken");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
