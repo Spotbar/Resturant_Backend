@@ -1,6 +1,6 @@
-﻿namespace Resturant_Backend.Domain.DTO
+﻿namespace Resturant_Backend.DataAccess.Models
 {
-    public class UserRemainingDTO
+    public class UserRemainingModel
     {
         public DateTimeOffset CurrentTime { get; set; }
         public int AmountSpent { get; set; }

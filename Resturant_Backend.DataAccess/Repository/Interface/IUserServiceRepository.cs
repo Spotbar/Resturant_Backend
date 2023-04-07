@@ -21,6 +21,6 @@ namespace Resturant_Backend.DataAccess.Repository
 
         Task<Response> Register(RegisterModel model);
         Task<Response> RegisterAdmin(RegisterModel model);
-        int SaveCommit();
+        Task SaveChangesAsync();
     }
 }

@@ -36,7 +36,7 @@ namespace Resturant_Backend.Business
         public async Task CreateRestaurantAsync(Restaurant restaurant)
         {
             var res = _restaurantFactory.CreateRestaurant(restaurant.Name, restaurant.Tel, restaurant.OpratorName, restaurant.Mobile, restaurant.Address);
-            _repository.AddRestaurant(res);
+            await _repository.AddRestaurantAsync(res);
             await _repository.SaveChangesAsync();
         }
 

@@ -5,44 +5,45 @@ using Resturant_Backend.Domain.Entities;
 using Resturant_Backend.Domain.Enums;
 using Resturant_Backend.DataAccess.Models;
 using Resturant_Backend.DataAccess.Factory;
+using Microsoft.EntityFrameworkCore;
 
 namespace Resturant_Backend.DataAccess.Repository
 {
     public class UserServiceRepository : IUserServiceRepository
     {
         private readonly UserManager<ApplicationUser> _userManager;
-        private readonly ApplicationDBContext _db;
+        private readonly ApplicationDBContext _context;
         UserFactory _userfact;
-        public UserServiceRepository(UserManager<ApplicationUser> userManager, ApplicationDBContext db)
+        public UserServiceRepository(UserManager<ApplicationUser> userManager, ApplicationDBContext context)
         {
             _userfact = new();
             this._userManager = userManager;
-            this._db = db;
+            this._context = context;
         }
 
         public UserRefreshTokens AddUserRefreshTokens(UserRefreshTokens user)
         {
-            _db.UserRefreshToken.Add(user);
+            _context.UserRefreshToken.Add(user);
             return user;
         }
 
         public void DeleteUserRefreshTokens(string username, string refreshToken)
         {
-            var item = _db.UserRefreshToken.FirstOrDefault(x => x.UserName == username && x.RefreshToken == refreshToken);
+            var item = _context.UserRefreshToken.FirstOrDefault(x => x.UserName == username && x.RefreshToken == refreshToken);
             if (item != null)
             {
-                _db.UserRefreshToken.Remove(item);
+                _context.UserRefreshToken.Remove(item);
             }
         }
 
         public UserRefreshTokens? GetSavedRefreshTokens(string username, string refreshToken)
         {
-            return _db.UserRefreshToken.FirstOrDefault(x => x.UserName == username && x.RefreshToken == refreshToken && x.IsActive);
+            return _context.UserRefreshToken.FirstOrDefault(x => x.UserName == username && x.RefreshToken == refreshToken && x.IsActive);
         }
 
-        public int SaveCommit()
+        public async Task SaveChangesAsync()
         {
-            return _db.SaveChanges();
+            await _context.SaveChangesAsync();
         }
 
         public async Task<Response> Register(RegisterModel model)
@@ -98,9 +99,6 @@ namespace Resturant_Backend.DataAccess.Repository
 
             return new Response { Status = eResponseStatus.Success, Message = "User created successfully!" };
         }
-
-
-
         public async Task<bool> IsValidUserAsync(LoginModel users)
         {
             

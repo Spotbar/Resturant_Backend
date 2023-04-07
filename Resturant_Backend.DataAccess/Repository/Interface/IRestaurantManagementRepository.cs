@@ -14,7 +14,7 @@ namespace Resturant_Backend.DataAccess.Repository
 
         Task<List<Restaurant>> GetRestaurantsAsync(params Guid[] RestaurantIds);
 
-        void AddRestaurant(Restaurant restaurant);
+        Task AddRestaurantAsync(Restaurant restaurant);
 
         Task SaveChangesAsync();
     }

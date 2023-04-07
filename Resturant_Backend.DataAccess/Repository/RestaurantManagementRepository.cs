@@ -65,9 +65,9 @@ namespace Resturant_Backend.DataAccess.Repository
             return restaurants;
         }
 
-        public void AddRestaurant(Restaurant restaurant)
+        public async Task AddRestaurantAsync(Restaurant restaurant)
         {
-            _context.Restaurants.Add(restaurant);
+             await _context.Restaurants.AddAsync(restaurant);
         }
 
         public async Task SaveChangesAsync()
