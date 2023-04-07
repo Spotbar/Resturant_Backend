@@ -2,17 +2,11 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting.Internal;
-using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using Resturant_Backend.Business;
 using Resturant_Backend.DataAccess.Repository;
 using Resturant_Backend.Domain.DbContexts;
 using Resturant_Backend.Domain.Entities;
-using System;
-using System.Reflection;
 using System.Text;
 using System.Text.Json.Serialization;
 
@@ -69,7 +63,8 @@ namespace Resturant_Backend.API
                 options.UseSqlServer(builder.Configuration.GetConnectionString("SqlServerDatabase"));
             });
 
-            builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options => {
+            builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
+            {
                 options.Password.RequireUppercase = true; // on production add more secured options
                 options.Password.RequireDigit = true;
                 options.SignIn.RequireConfirmedEmail = true;
@@ -123,7 +118,7 @@ namespace Resturant_Backend.API
                 };
             });
 
-          
+
             builder.Services.AddSingleton<IJWTManagerRepository, JWTManagerRepository>();
             builder.Services.AddScoped<IUserServiceRepository, UserServiceRepository>();
             //builder.Services.AddScoped<IUserManagerService, UserManagerService>();

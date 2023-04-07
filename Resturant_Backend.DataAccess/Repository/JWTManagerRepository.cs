@@ -32,13 +32,16 @@ namespace Resturant_Backend.DataAccess.Repository
             {
                 var tokenHandler = new JwtSecurityTokenHandler();
                 var tokenKey = Encoding.UTF8.GetBytes(iconfiguration["JWT:Key"]);
+                _ = int.TryParse(iconfiguration["JWT:TokenValidityInMinutes"], out int tokenValidityInMinutes);
+
                 var tokenDescriptor = new SecurityTokenDescriptor
                 {
                     Subject = new ClaimsIdentity(new Claim[]
                   {
                  new Claim(ClaimTypes.Name, userName)
                   }),
-                    Expires = DateTime.Now.AddMinutes(1),
+                    Expires = DateTime.Now.AddMinutes(tokenValidityInMinutes),
+                    
                     SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(tokenKey), SecurityAlgorithms.HmacSha256Signature)
                 };
                 var token = tokenHandler.CreateToken(tokenDescriptor);

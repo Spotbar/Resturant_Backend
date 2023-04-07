@@ -7,7 +7,7 @@ using Resturant_Backend.DataAccess.Models.Auth;
 namespace Resturant_Backend.API.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
 
     public class TestController : ControllerBase
     {
@@ -20,16 +20,31 @@ namespace Resturant_Backend.API.Controllers
             _logger = logger;
            
         }
-        //[Authorize(Roles = nameof(UserRoles.Admin))]
-        [Authorize]
-        [HttpGet(Name = "Get")]
-       
+        [HttpGet]
+        [Route("Get")]
         public IActionResult Get()
         {
 
-            return Ok("hello");
+            return Ok("Hello");
         }
 
-       
+
+        [Authorize]
+        [HttpGet]
+        [Route("GetAuthorize")]
+        public IActionResult GetAuthorize()
+        {
+
+            return Ok("Hello Authorize");
+        }
+
+        [Authorize(Roles = nameof(UserRoles.Admin))]
+        [HttpGet]
+        [Route("GetAdmin")]
+        public IActionResult GetAdmin()
+        {
+
+            return Ok("Hello Admin");
+        }
     }
 }

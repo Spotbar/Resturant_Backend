@@ -1,12 +1,6 @@
-﻿//using Resturant_Backend.DataAccess.Events;
-//using Resturant_Backend.Infra.Exceptions;
-
-using Resturant_Backend.DataAccess.Factory;
+﻿using Resturant_Backend.DataAccess.Factory;
 using Resturant_Backend.DataAccess.Repository;
 using Resturant_Backend.Domain.Entities;
-
-
-//[assembly: InternalsVisibleTo("ITeasy_UniversityManagementDemo.Test")]
 
 namespace Resturant_Backend.Business
 {
@@ -16,7 +10,6 @@ namespace Resturant_Backend.Business
         private readonly IRestaurantManagementRepository _repository;
         private readonly RestaurantFactory _restaurantFactory;
 
-        //public event EventHandler<StudentIsGraduatedEventArgs>? StudentIsGraduated;
 
         public RestaurantService(IRestaurantManagementRepository repository,
             RestaurantFactory restaurantFactory)

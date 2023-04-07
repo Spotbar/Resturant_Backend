@@ -15,11 +15,12 @@ namespace Resturant_Backend.DataAccess.Repository
 
         UserRefreshTokens AddUserRefreshTokens(UserRefreshTokens user);
 
-        UserRefreshTokens GetSavedRefreshTokens(string username, string refreshtoken);
+        UserRefreshTokens? GetSavedRefreshTokens(string username, string refreshtoken);
 
         void DeleteUserRefreshTokens(string username, string refreshToken);
 
         Task<Response> Register(RegisterModel model);
+        Task<Response> RegisterAdmin(RegisterModel model);
         int SaveCommit();
     }
 }

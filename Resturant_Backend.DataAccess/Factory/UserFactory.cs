@@ -9,11 +9,10 @@ namespace Resturant_Backend.DataAccess.Factory
         /// Create an Restaurant
         /// </summary>
 
-        public virtual ApplicationUser CreateUser(string name,
+        public virtual ApplicationUser CreateUser(string name, string lastName,
       string nationalCode,
       string phoneNumber ,
-      string? post = null,
-      string? address = null)
+      string? post = null)
         {
             string phoneNummberPattern = @"^0[1-9]\d{9}$";
             Regex rg = new Regex(phoneNummberPattern);
@@ -22,6 +21,11 @@ namespace Resturant_Backend.DataAccess.Factory
             {
                 throw new ArgumentException($"'{nameof(name)}' cannot be null or empty.",
                     nameof(name));
+            }
+            if (string.IsNullOrEmpty(lastName))
+            {
+                throw new ArgumentException($"'{nameof(lastName)}' cannot be null or empty.",
+                    nameof(lastName));
             }
             if (string.IsNullOrEmpty(phoneNumber))
             {
