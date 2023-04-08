@@ -43,7 +43,7 @@ namespace Resturant_Backend.DataAccess.Factory
             }
 
 
-            return new ApplicationUser() { Name = name,NationalCode= nationalCode,Post= post, PhoneNumber= phoneNumber };
+            return new ApplicationUser() { Name = name, LastName = lastName, NationalCode = nationalCode,Post= post, PhoneNumber= phoneNumber };
         }
     }
 }

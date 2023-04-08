@@ -36,7 +36,7 @@ namespace Resturant_Backend.DataAccess.Repository
             }
         }
 
-        public UserRefreshTokens? GetSavedRefreshTokens(string username, string refreshToken)
+        public UserRefreshTokens? GetSavedRefreshTokens(string? username, string refreshToken)
         {
             return _context.UserRefreshToken.FirstOrDefault(x => x.UserName == username && x.RefreshToken == refreshToken && x.IsActive);
         }
@@ -62,10 +62,10 @@ namespace Resturant_Backend.DataAccess.Repository
             try
             {
                 var result = await _userManager.CreateAsync(user, model.Password);
-                await _userManager.AddToRoleAsync(user, UserRoles.User);
+             
                 if (!result.Succeeded)
                     return new Response { Status = eResponseStatus.Failed, Message = "User creation failed! Please check user details and try again." };
-
+                await _userManager.AddToRoleAsync(user, UserRoles.User);
             }
             catch (Exception c)
             {

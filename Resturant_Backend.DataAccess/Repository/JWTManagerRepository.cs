@@ -21,12 +21,12 @@ namespace Resturant_Backend.DataAccess.Repository
             return GenerateJWTTokens(userName);
         }
 
-        public Tokens GenerateRefreshToken(string username)
+        public Tokens GenerateRefreshToken(string? username)
         {
             return GenerateJWTTokens(username);
         }
 
-        public Tokens GenerateJWTTokens(string userName)
+        public Tokens GenerateJWTTokens(string? userName)
         {
             try
             {

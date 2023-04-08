@@ -15,7 +15,7 @@ namespace Resturant_Backend.DataAccess.Repository
 
         UserRefreshTokens AddUserRefreshTokens(UserRefreshTokens user);
 
-        UserRefreshTokens? GetSavedRefreshTokens(string username, string refreshtoken);
+        UserRefreshTokens? GetSavedRefreshTokens(string? username, string refreshtoken);
 
         void DeleteUserRefreshTokens(string username, string refreshToken);
 

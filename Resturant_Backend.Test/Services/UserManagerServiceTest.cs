@@ -19,7 +19,7 @@ namespace Resturant_Backend.Test
         //}
 
 
-        public Mock<IUserManagerService> mock = new Mock<IUserManagerService>();
+       // public Mock<IUserManagerService> mock = new Mock<IUserManagerService>();
 
         [Fact]
         [Trait("Category", "Login")]

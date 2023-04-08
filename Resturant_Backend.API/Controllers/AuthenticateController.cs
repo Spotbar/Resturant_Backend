@@ -50,21 +50,21 @@ namespace Resturant_Backend.API.Controllers
             };
 
             _userServiceRepository.AddUserRefreshTokens(obj);
-            _userServiceRepository.SaveCommit();
+          await  _userServiceRepository.SaveChangesAsync();
             return Ok(token);
         }
 
         [AllowAnonymous]
         [HttpPost]
         [Route("refresh")]
-        public IActionResult Refresh(Tokens token)
+        public async Task<IActionResult> Refresh(Tokens token)
         {
             var principal = _jWTManager.GetPrincipalFromExpiredToken(token.Access_Token);
             var username = principal.Identity?.Name;
 
             //retrieve the saved refresh token from database
             var savedRefreshToken = _userServiceRepository.GetSavedRefreshTokens(username, token.Refresh_Token);
-
+            if(savedRefreshToken ==null) return Unauthorized("Invalid attempt!");
             if (savedRefreshToken.RefreshToken != token.Refresh_Token)
             {
                 return Unauthorized("Invalid attempt!");
@@ -86,7 +86,7 @@ namespace Resturant_Backend.API.Controllers
 
             _userServiceRepository.DeleteUserRefreshTokens(username, token.Refresh_Token);
             _userServiceRepository.AddUserRefreshTokens(obj);
-            _userServiceRepository.SaveCommit();
+         await   _userServiceRepository. SaveChangesAsync();
 
             return Ok(newJwtToken);
         }
