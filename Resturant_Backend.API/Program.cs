@@ -14,10 +14,20 @@ namespace Resturant_Backend.API
 {
     public class Program
     {
+        //    public  string AllowOrigin = "AllowClientOrigin";
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
 
+            //Add Cross Origin Resource Sharing Support
+            builder.Services.AddCors((cors) =>
+            {
+                cors.AddPolicy("AllowClientOrigin", policy => policy
+                .AllowAnyOrigin()
+                .WithMethods("GET", "POST", "PUT", "DELETE")
+
+                .AllowAnyHeader());
+            });
             // Add services to the container.
             builder.Services.AddControllers()
                 .AddJsonOptions(x =>
@@ -57,6 +67,7 @@ namespace Resturant_Backend.API
             });
             builder.Services.AddHttpClient();
             builder.Services.AddMvc();
+
             // Database & Authorization
             builder.Services.AddDbContext<ApplicationDBContext>(options =>
             {
@@ -69,19 +80,6 @@ namespace Resturant_Backend.API
                 options.Password.RequireDigit = true;
                 options.SignIn.RequireConfirmedEmail = true;
             }).AddEntityFrameworkStores<ApplicationDBContext>().AddDefaultTokenProviders();
-            //builder.Services.AddDefaultIdentity<ApplicationUser>(
-            //    options =>
-            //    {
-            //        options.SignIn.RequireConfirmedAccount = false;
-            //        options.Password.RequireUppercase = false; // on production add more secured options
-            //        options.Password.RequireDigit = false;
-            //    })
-            //    .AddRoles<IdentityRole>()
-            //    //.AddUserStore<UserStore>()
-            //    .AddEntityFrameworkStores<ApplicationDBContext>()
-            //    .AddDefaultTokenProviders(); 
-
-
 
 
             // Adding Authentication  
@@ -109,10 +107,22 @@ namespace Resturant_Backend.API
                 {
                     OnAuthenticationFailed = context =>
                     {
+
                         if (context.Exception.GetType() == typeof(SecurityTokenExpiredException))
                         {
                             context.Response.Headers.Add("IS-TOKEN-EXPIRED", "true");
                         }
+                        return Task.CompletedTask;
+                    }
+                    ,
+                    OnMessageReceived = context =>
+                    {
+
+                        if (context.Request.Cookies.ContainsKey("X-Access-Token"))
+                        {
+                            context.Token = context.Request.Cookies["X-Access-Token"];
+                        }
+
                         return Task.CompletedTask;
                     }
                 };
@@ -160,7 +170,7 @@ namespace Resturant_Backend.API
             app.UseAuthentication();
             app.UseAuthorization();
 
-
+            app.UseCors("AllowClientOrigin");
             app.MapControllers();
 
             app.Run();

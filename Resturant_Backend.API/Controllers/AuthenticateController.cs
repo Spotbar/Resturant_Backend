@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Resturant_Backend.Business;
@@ -10,6 +11,7 @@ namespace Resturant_Backend.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [EnableCors("AllowClientOrigin")]
     public class AuthenticateController : ControllerBase
     {
         private readonly IJWTManagerRepository _jWTManager;
@@ -50,7 +52,13 @@ namespace Resturant_Backend.API.Controllers
             };
 
             _userServiceRepository.AddUserRefreshTokens(obj);
-          await  _userServiceRepository.SaveChangesAsync();
+            await  _userServiceRepository.SaveChangesAsync();
+            //, SameSite = SameSiteMode.Strict 
+            Response.Cookies.Append("X-Access-Token", token.Access_Token, new CookieOptions() { HttpOnly = true});
+            Response.Cookies.Append("X-Username", obj.UserName, new CookieOptions() { HttpOnly = true});
+            Response.Cookies.Append("X-Refresh-Token", token.Refresh_Token, new CookieOptions() { HttpOnly = true});
+
+
             return Ok(token);
         }
 
@@ -86,8 +94,11 @@ namespace Resturant_Backend.API.Controllers
 
             _userServiceRepository.DeleteUserRefreshTokens(username, token.Refresh_Token);
             _userServiceRepository.AddUserRefreshTokens(obj);
-         await   _userServiceRepository. SaveChangesAsync();
+             await   _userServiceRepository. SaveChangesAsync();
 
+            Response.Cookies.Append("X-Access-Token", newJwtToken.Access_Token, new CookieOptions() { HttpOnly = true });
+            Response.Cookies.Append("X-Username", obj.UserName, new CookieOptions() { HttpOnly = true });
+            Response.Cookies.Append("X-Refresh-Token", obj.RefreshToken, new CookieOptions() { HttpOnly = true });
             return Ok(newJwtToken);
         }
 

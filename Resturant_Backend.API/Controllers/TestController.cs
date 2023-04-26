@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using NuGet.Protocol;
 using Resturant_Backend.Business;
@@ -8,7 +9,7 @@ namespace Resturant_Backend.API.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-
+    [EnableCors("AllowClientOrigin")]
     public class TestController : ControllerBase
     {
        

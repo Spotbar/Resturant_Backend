@@ -14,8 +14,10 @@
 		<PackageReference Include="GraphQL.Server.Transports.AspNetCore.SystemTextJson" Version="5.2.2" />
 		<PackageReference Include="GraphQL.Server.Ui.GraphiQL" Version="7.3.0" />
 		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.4" />
+		<PackageReference Include="Microsoft.AspNetCore.Cors" Version="2.2.0" />
 		<PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="7.0.4" />
 		<PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="7.0.4" />
+		<PackageReference Include="Microsoft.AspNetCore.Mvc.Cors" Version="2.2.0" />
 		<PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.3" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.4">
 			<PrivateAssets>all</PrivateAssets>

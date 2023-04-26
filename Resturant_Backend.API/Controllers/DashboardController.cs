@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Resturant_Backend.Business;
 using Resturant_Backend.DataAccess.Models.Auth;
@@ -8,6 +9,7 @@ namespace Resturant_Backend.API.Controllers
     [ApiController]
     [Route("api/Dashboard")]
     [Authorize]
+    [EnableCors("AllowClientOrigin")]
     public class DashboardController : ControllerBase
     {
        
