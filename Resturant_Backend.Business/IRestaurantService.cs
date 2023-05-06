@@ -1,4 +1,5 @@
-﻿using Resturant_Backend.Domain.Entities;
+﻿using Resturant_Backend.Domain.DTO;
+using Resturant_Backend.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,11 +10,11 @@ namespace Resturant_Backend.Business
 {
     public interface IRestaurantService
     {
-        Task<IEnumerable<Restaurant>> GetAllRestaurantAsync();
-        Task<Restaurant?> Get_RestaurantByIdAsync(string RestaurantId);
-        Task<Restaurant?> Get_RestaurantByNameAsync(string RestaurantName);
+        IEnumerable<RestaurantDTO> GetAllRestaurantAsync();
+        Task<RestaurantDTO?> Get_RestaurantByIdAsync(string RestaurantId);
+        Task<RestaurantDTO?> Get_RestaurantByNameAsync(string RestaurantName);
 
-        Task CreateRestaurantAsync(Restaurant restaurant);
+        Task CreateRestaurantAsync(RestaurantDTO restaurant);
 
     }
 }

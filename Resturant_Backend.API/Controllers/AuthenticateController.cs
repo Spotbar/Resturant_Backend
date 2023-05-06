@@ -53,10 +53,13 @@ namespace Resturant_Backend.API.Controllers
 
             _userServiceRepository.AddUserRefreshTokens(obj);
             await  _userServiceRepository.SaveChangesAsync();
-            //, SameSite = SameSiteMode.Strict 
-            Response.Cookies.Append("X-Access-Token", token.Access_Token, new CookieOptions() { HttpOnly = true});
-            Response.Cookies.Append("X-Username", obj.UserName, new CookieOptions() { HttpOnly = true});
-            Response.Cookies.Append("X-Refresh-Token", token.Refresh_Token, new CookieOptions() { HttpOnly = true});
+            //, SameSite = SameSiteMode.Strict
+            //SameSite = SameSiteMode.None, Secure = false
+
+            //var Coption =  new CookieOptions() { HttpOnly = true, Secure = false };
+            //Response.Cookies.Append("X-Access-Token", token.Access_Token, Coption);
+            //Response.Cookies.Append("X-Username", obj.UserName, Coption);
+            //Response.Cookies.Append("X-Refresh-Token", token.Refresh_Token,Coption );
 
 
             return Ok(token);
@@ -145,6 +148,10 @@ namespace Resturant_Backend.API.Controllers
             }
 
         }
+
+
+
+      
     }
 }
 

@@ -1,5 +1,6 @@
 ﻿using Resturant_Backend.DataAccess.Factory;
 using Resturant_Backend.DataAccess.Repository;
+using Resturant_Backend.Domain.DTO;
 using Resturant_Backend.Domain.Entities;
 
 namespace Resturant_Backend.Business
@@ -17,23 +18,28 @@ namespace Resturant_Backend.Business
             _repository = repository;
             _restaurantFactory = restaurantFactory;
         }
-        public async Task<IEnumerable<Restaurant>> GetAllRestaurantAsync()
+        public  IEnumerable<RestaurantDTO> GetAllRestaurantAsync()
         {
-            var restaurants = await _repository.GetRestaurantsAsync();
-            return restaurants;
+            var restaurants =  _repository.GetRestaurantsAsync().Result;
+            foreach (var item in restaurants)
+            {
+
+                yield return (RestaurantDTO)item;
+            }
+           // return restaurants;
         }
-        public async Task<Restaurant?> Get_RestaurantByIdAsync(string RestaurantId)
+        public async Task<RestaurantDTO?> Get_RestaurantByIdAsync(string RestaurantId)
         {
-            var restaurant = await _repository.Get_RestaurantByIdAsync(Guid.Parse( RestaurantId));
+            RestaurantDTO restaurant = await _repository.Get_RestaurantByIdAsync(Guid.Parse( RestaurantId));
             return restaurant;
         }
-        public async Task<Restaurant?> Get_RestaurantByNameAsync(string RestaurantName)
+        public async Task<RestaurantDTO?> Get_RestaurantByNameAsync(string RestaurantName)
         {
-            var restaurant = await _repository.Get_RestaurantByname(RestaurantName);
+            RestaurantDTO restaurant = await _repository.Get_RestaurantByname(RestaurantName);
             return restaurant;
         }
 
-        public async Task CreateRestaurantAsync(Restaurant restaurant)
+        public async Task CreateRestaurantAsync(RestaurantDTO restaurant)
         {
             var res = _restaurantFactory.CreateRestaurant(restaurant.Name, restaurant.Tel, restaurant.OpratorName, restaurant.Mobile, restaurant.Address);
             await _repository.AddRestaurantAsync(res);

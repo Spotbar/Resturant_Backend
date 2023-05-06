@@ -2,8 +2,11 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Resturant_Backend.Business;
+using Resturant_Backend.DataAccess.Factory;
 using Resturant_Backend.DataAccess.Repository;
 using Resturant_Backend.Domain.DbContexts;
 using Resturant_Backend.Domain.Entities;
@@ -19,15 +22,26 @@ namespace Resturant_Backend.API
         {
             var builder = WebApplication.CreateBuilder(args);
 
+
             //Add Cross Origin Resource Sharing Support
             builder.Services.AddCors((cors) =>
             {
                 cors.AddPolicy("AllowClientOrigin", policy => policy
-                .AllowAnyOrigin()
-                .WithMethods("GET", "POST", "PUT", "DELETE")
 
-                .AllowAnyHeader());
+               .WithMethods("GET", "POST", "PUT", "DELETE")
+               //.WithOrigins("http://200.200.200.185:3000")
+               //.SetIsOriginAllowed(origin => true) // allow any origin
+               .AllowAnyOrigin()
+                //.AllowAnyMethod()
+                .AllowAnyHeader()
+                //.AllowCredentials()
+                );
             });
+
+
+
+
+
             // Add services to the container.
             builder.Services.AddControllers()
                 .AddJsonOptions(x =>
@@ -68,19 +82,20 @@ namespace Resturant_Backend.API
             builder.Services.AddHttpClient();
             builder.Services.AddMvc();
 
+            #region Authorization
+
             // Database & Authorization
             builder.Services.AddDbContext<ApplicationDBContext>(options =>
             {
                 options.UseSqlServer(builder.Configuration.GetConnectionString("SqlServerDatabase"));
             });
-
             builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
             {
                 options.Password.RequireUppercase = true; // on production add more secured options
                 options.Password.RequireDigit = true;
-                options.SignIn.RequireConfirmedEmail = true;
-            }).AddEntityFrameworkStores<ApplicationDBContext>().AddDefaultTokenProviders();
 
+                options.SignIn.RequireConfirmedEmail = false;
+            }).AddEntityFrameworkStores<ApplicationDBContext>().AddDefaultTokenProviders();
 
             // Adding Authentication  
             builder.Services.AddAuthentication(x =>
@@ -114,23 +129,38 @@ namespace Resturant_Backend.API
                         }
                         return Task.CompletedTask;
                     }
-                    ,
-                    OnMessageReceived = context =>
-                    {
+                    //,
+                    //OnMessageReceived = context =>
+                    //{
 
-                        if (context.Request.Cookies.ContainsKey("X-Access-Token"))
-                        {
-                            context.Token = context.Request.Cookies["X-Access-Token"];
-                        }
+                    //    if (context.Request.Cookies.ContainsKey("X-Access-Token"))
+                    //    {
+                    //        context.Token = context.Request.Cookies["X-Access-Token"];
+                    //    }
 
-                        return Task.CompletedTask;
-                    }
+                    //    return Task.CompletedTask;
+                    //}
                 };
             });
 
 
             builder.Services.AddSingleton<IJWTManagerRepository, JWTManagerRepository>();
             builder.Services.AddScoped<IUserServiceRepository, UserServiceRepository>();
+
+            #endregion Authorization
+
+
+
+
+            
+            builder.Services.AddScoped<IRestaurantManagementRepository, RestaurantManagementRepository>();
+            builder.Services.AddScoped<RestaurantFactory>();
+
+            builder.Services.AddScoped<IRestaurantService, RestaurantService>();
+
+
+
+            //  builder.Services.AddSingleton<IRestaurantService, RestaurantService>();
             //builder.Services.AddScoped<IUserManagerService, UserManagerService>();
             //  builder.Services.AddScoped<UserManager<ApplicationUser>, UserManager<ApplicationUser>>();
             //builder.Services.AddScoped<IUserManagerRepository, UserManagerRepository>();
@@ -163,14 +193,14 @@ namespace Resturant_Backend.API
                     // c.ConfigureOAuth2("swagger-ui", "swagger-ui-secret", "swagger-ui-realm", "Swagger UI");
                 });
             }
-
-            //app.UseHttpsRedirection();
+            app.UseCors("AllowClientOrigin");
+            //  app.UseHttpsRedirection();
             app.UseGraphQLGraphiQL("/ui/graphql");
 
             app.UseAuthentication();
             app.UseAuthorization();
 
-            app.UseCors("AllowClientOrigin");
+
             app.MapControllers();
 
             app.Run();
