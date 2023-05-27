@@ -46,6 +46,12 @@ namespace Resturant_Backend.Business
             await _repository.SaveChangesAsync();
         }
 
+        public async Task UpdateRestaurantAsync(RestaurantDTO restaurant)
+        {
+            var res = _restaurantFactory.UpdateRestaurant(Guid.Parse(restaurant.Id), restaurant.Name, restaurant.Tel, restaurant.OpratorName, restaurant.Mobile, restaurant.Address);
+             _repository.UpdateRestaurant(res);
+            await _repository.SaveChangesAsync();
+        }
 
 
     }

@@ -11,20 +11,20 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 namespace Resturant_Backend.API.Controllers
 {
     [ApiController]
-    [Route("api/Restaurant")]
+    [Route("api/Factor")]
     //[Authorize]
     [EnableCors("AllowClientOrigin")]
-    public class RestaurantController : ControllerBase
+    public class FactorController : ControllerBase
     {
 
 
-        private readonly ILogger<RestaurantController> _logger;
-        private readonly IRestaurantService _restaurant;
+        private readonly ILogger<FactorController> _logger;
+        private readonly IFactorService _Factor;
 
-        public RestaurantController(ILogger<RestaurantController> logger, IRestaurantService restaurant)
+        public FactorController(ILogger<FactorController> logger, IFactorService Factor)
         {
             _logger = logger;
-            _restaurant = restaurant;
+            _Factor = Factor;
         }
 
         #region Gets
@@ -32,34 +32,34 @@ namespace Resturant_Backend.API.Controllers
         [Route("Get")]
         public async Task<IActionResult> Get()
         {
-            var result = _restaurant.GetAllRestaurantAsync();
+            var result = _Factor.GetAllFactorAsync();
             return new OkObjectResult(JsonConvert.SerializeObject(result));
         }
 
         [HttpGet]
         [Route("Get_Id")]
-        public async Task<IActionResult> Get_Id(string restaurantId)
+        public async Task<IActionResult> Get_Id(string FactorId)
         {
 
-            var result = await _restaurant.Get_RestaurantByIdAsync(restaurantId);
+            var result = await _Factor.Get_FactorByIdAsync(FactorId);
             return new OkObjectResult(JsonConvert.SerializeObject(result));
         }
         [HttpGet]
-        [Route("Get_RestaurantName")]
-        public async Task<IActionResult> Get_RestaurantName(string restaurantName)
+        [Route("Get_FactorNumber")]
+        public async Task<IActionResult> Get_FactorName(string FactorNumber)
         {
 
-            var result = await _restaurant.Get_RestaurantByNameAsync(restaurantName);
+            var result = await _Factor.Get_FactorByFactorNumberAsync(FactorNumber);
             return new OkObjectResult(JsonConvert.SerializeObject(result));
         }
         #endregion  Gets
 
         #region Posts
         [HttpPost]
-        [Route("AddNewRestaurant")]
-        public async Task<IActionResult> AddNewRestaurant([FromBody] RestaurantDTO model)
+        [Route("AddNewFactor")]
+        public async Task<IActionResult> AddNewFactor([FromBody] FactorDTO model)
         {
-           await  _restaurant.CreateRestaurantAsync(model);
+           await  _Factor.CreateFactorAsync(model);
             return new OkObjectResult(JsonConvert.SerializeObject(model));
         }
         #endregion Posts
@@ -67,10 +67,10 @@ namespace Resturant_Backend.API.Controllers
         #region Puts
 
         [HttpPut]
-        [Route("UpdateRestaurant")]
-        public async Task<IActionResult> UpdateRestaurant([FromBody] RestaurantDTO model)
+        [Route("UpdateFactor")]
+        public async Task<IActionResult> UpdateFactor([FromBody] FactorDTO model)
         {
-            await _restaurant.UpdateRestaurantAsync(model);
+            await _Factor.UpdateFactorAsync(model);
             return new OkObjectResult(JsonConvert.SerializeObject(model));
         }
 

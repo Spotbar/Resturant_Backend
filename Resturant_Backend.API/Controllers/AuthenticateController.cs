@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Resturant_Backend.Business;
 using Resturant_Backend.DataAccess.Models.Auth;
 using Resturant_Backend.DataAccess.Repository;
 using Resturant_Backend.Domain.Entities;
@@ -24,7 +22,7 @@ namespace Resturant_Backend.API.Controllers
             this._jWTManager = jWTManager;
             this._userServiceRepository = userServiceRepository;
         }
-     
+
         [AllowAnonymous]
         [HttpPost]
         [Route("authenticate")]
@@ -52,7 +50,7 @@ namespace Resturant_Backend.API.Controllers
             };
 
             _userServiceRepository.AddUserRefreshTokens(obj);
-            await  _userServiceRepository.SaveChangesAsync();
+            await _userServiceRepository.SaveChangesAsync();
             //, SameSite = SameSiteMode.Strict
             //SameSite = SameSiteMode.None, Secure = false
 
@@ -75,7 +73,7 @@ namespace Resturant_Backend.API.Controllers
 
             //retrieve the saved refresh token from database
             var savedRefreshToken = _userServiceRepository.GetSavedRefreshTokens(username, token.Refresh_Token);
-            if(savedRefreshToken ==null) return Unauthorized("Invalid attempt!");
+            if (savedRefreshToken == null) return Unauthorized("Invalid attempt!");
             if (savedRefreshToken.RefreshToken != token.Refresh_Token)
             {
                 return Unauthorized("Invalid attempt!");
@@ -97,7 +95,7 @@ namespace Resturant_Backend.API.Controllers
 
             _userServiceRepository.DeleteUserRefreshTokens(username, token.Refresh_Token);
             _userServiceRepository.AddUserRefreshTokens(obj);
-             await   _userServiceRepository. SaveChangesAsync();
+            await _userServiceRepository.SaveChangesAsync();
 
             Response.Cookies.Append("X-Access-Token", newJwtToken.Access_Token, new CookieOptions() { HttpOnly = true });
             Response.Cookies.Append("X-Username", obj.UserName, new CookieOptions() { HttpOnly = true });
@@ -151,7 +149,7 @@ namespace Resturant_Backend.API.Controllers
 
 
 
-      
+
     }
 }
 

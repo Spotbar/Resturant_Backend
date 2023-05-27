@@ -19,8 +19,9 @@ namespace Resturant_Backend.Domain.Entities
             Name=name;
             Tel = tel;
         }
-        public Restaurant( string name, string tel,string? opratorName ,string? mobile ,string? address) : base()
+        public Restaurant(Guid id, string name, string tel,string? opratorName ,string? mobile ,string? address) : base()
         {
+            Id = id;
             Name = name;
             Tel = tel;
             OpratorName = opratorName;

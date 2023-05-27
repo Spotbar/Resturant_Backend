@@ -12,6 +12,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Resturant_Backend.Domain\Resturant_Backend.Domain.csproj" />
+    <ProjectReference Include="..\Resturant_Backend.Infrastructure\Resturant_Backend.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

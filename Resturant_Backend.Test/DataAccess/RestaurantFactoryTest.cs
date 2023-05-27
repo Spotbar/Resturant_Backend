@@ -8,10 +8,10 @@ using System.Threading.Tasks;
 
 namespace Resturant_Backend.DataAccess.Test
 {
-    public class UserManagerServiceTest 
+    public class RestaurantFactoryTest
     {
         private RestaurantFactory _restaurantFactory;
-        public UserManagerServiceTest()
+        public RestaurantFactoryTest()
         {
             _restaurantFactory = new RestaurantFactory();
         }

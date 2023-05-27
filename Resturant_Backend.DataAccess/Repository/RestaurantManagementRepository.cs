@@ -69,7 +69,10 @@ namespace Resturant_Backend.DataAccess.Repository
         {
              await _context.Restaurants.AddAsync(restaurant);
         }
-
+        public void UpdateRestaurant(Restaurant restaurant)
+        {
+             _context.Restaurants.Update(restaurant);
+        }
         public async Task SaveChangesAsync()
         {
             await _context.SaveChangesAsync();

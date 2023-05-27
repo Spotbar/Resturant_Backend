@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Resturant_Backend.Business;
@@ -152,11 +151,19 @@ namespace Resturant_Backend.API
 
 
 
-            
+            //Restaurant
             builder.Services.AddScoped<IRestaurantManagementRepository, RestaurantManagementRepository>();
             builder.Services.AddScoped<RestaurantFactory>();
-
             builder.Services.AddScoped<IRestaurantService, RestaurantService>();
+
+            //Factor
+            builder.Services.AddScoped<IFactorRepository, FactorRepository>();
+            builder.Services.AddScoped<FactorFactory>();
+            builder.Services.AddScoped<IFactorService, FactorService>();
+
+
+
+
 
 
 

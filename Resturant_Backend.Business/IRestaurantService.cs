@@ -16,5 +16,6 @@ namespace Resturant_Backend.Business
 
         Task CreateRestaurantAsync(RestaurantDTO restaurant);
 
+        Task UpdateRestaurantAsync(RestaurantDTO restaurant);
     }
 }
