@@ -9,23 +9,57 @@ namespace Resturant_Backend.Domain.Entities
     public class Factor : Base
     {
 
-       
+       /// <summary>
+       /// شماره فاکتور
+       /// </summary>
         public string? FactorNumber { get; set; }
 
+        /// <summary>
+        /// تاریخ فاکتور
+        /// </summary>
         public DateTimeOffset FactorDate { get; set; }
+
+        /// <summary>
+        /// هرینه پیک
+        /// </summary>
         [Required]
-        
         public long DeliveryCost { get; set; }
+        /// <summary>
+        /// مبلغ فاکتور
+        /// </summary>
         [Required]
         public long FactorAmount { get; set; }
-        public bool IsClosed { get; set; }
+      
+      
+        /// <summary>
+        /// هزینه پیک با شرکت
+        /// </summary>
         public bool IsDeliveryByCompanyPaid { get; set; }
 
+        /// <summary>
+        /// وضعیت فاکتور
+        /// </summary>
+        public bool IsClosed { get; set; }
+
+        
+        /// <summary>
+        /// رستوران
+        /// </summary>
         [Required]
         public Guid RestaurantId { get; set; }
-
+        /// <summary>
+        /// رستوران
+        /// </summary>
         [ForeignKey(nameof(RestaurantId))]
         public virtual Restaurant? Restaurant { get; set; }
+
+        /// <summary>
+        /// سفارش ها
+        /// </summary>
+        public virtual ICollection<Order> Orders { get; set; }
+
+
+
 
         public Factor()
         {
@@ -37,7 +71,9 @@ namespace Resturant_Backend.Domain.Entities
       long factorAmount,
       bool isClosed,
       bool isDeliveryByCompanyPaid,
-      string restaurantId) : base()
+      string restaurantId ,
+
+      ICollection<Order> orders) : base()
         {
             Id = id;
             FactorNumber = factorNumber;

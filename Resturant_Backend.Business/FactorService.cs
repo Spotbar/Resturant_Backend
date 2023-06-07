@@ -47,7 +47,8 @@ namespace Resturant_Backend.Business
                 factor.FactorAmount,
                 factor.IsClosed,
                 factor.IsDeliveryByCompanyPaid,
-                factor.Restaurant.Id);
+                factor.RestaurantId,factor.Orders
+                );
 
             await _repository.AddFactorAsync(res);
             await _repository.SaveChangesAsync();
@@ -62,7 +63,8 @@ namespace Resturant_Backend.Business
                 factor.FactorAmount,
                 factor.IsClosed,
                 factor.IsDeliveryByCompanyPaid,
-                factor.Restaurant.Id);
+                factor.RestaurantId,
+                factor.Orders);
 
              _repository.UpdateFactor(res);
             await _repository.SaveChangesAsync();

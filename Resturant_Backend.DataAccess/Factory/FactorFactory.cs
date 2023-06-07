@@ -18,7 +18,8 @@ namespace Resturant_Backend.DataAccess.Factory
       long factorAmount,
       bool isClosed,
       bool isDeliveryByCompanyPaid,
-      string restaurantId)
+      string restaurantId,
+      ICollection<Order> orders)
         {
 
 
@@ -46,7 +47,12 @@ namespace Resturant_Backend.DataAccess.Factory
                     nameof(factorAmount));
             }
 
-            return new Factor(Guid.Empty, factorNumber, factorDate, deliveryCost, factorAmount, isClosed, isDeliveryByCompanyPaid, restaurantId);
+            if (orders.Count==0)
+            {
+                throw new ArgumentException($"orders count is empty",
+                  nameof(factorAmount));
+            }
+            return new Factor(Guid.Empty, factorNumber, factorDate, deliveryCost, factorAmount, isClosed, isDeliveryByCompanyPaid, restaurantId, orders);
         }
 
         public virtual Factor UpdateFactor(
@@ -57,7 +63,8 @@ namespace Resturant_Backend.DataAccess.Factory
           long factorAmount,
           bool isClosed,
           bool isDeliveryByCompanyPaid,
-          string restaurantId)
+          string restaurantId,
+      ICollection<Order> orders)
         {
 
 
@@ -83,7 +90,12 @@ namespace Resturant_Backend.DataAccess.Factory
                 throw new ArgumentException($"'{nameof(factorAmount)}' Invalid.",
                     nameof(factorAmount));
             }
-            return new Factor(Guid.Empty, factorNumber, factorDate, deliveryCost, factorAmount, isClosed, isDeliveryByCompanyPaid, restaurantId);
+            if (orders.Count == 0)
+            {
+                throw new ArgumentException($"orders count is empty",
+                  nameof(factorAmount));
+            }
+            return new Factor(Guid.Parse(Id), factorNumber, factorDate, deliveryCost, factorAmount, isClosed, isDeliveryByCompanyPaid, restaurantId, orders);
         }
     }
 }
