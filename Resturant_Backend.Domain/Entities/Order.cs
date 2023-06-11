@@ -1,4 +1,5 @@
 ﻿using Resturant_Backend.Domain.BaseModels;
+using Resturant_Backend.Domain.DTO;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -17,7 +18,7 @@ namespace Resturant_Backend.Domain.Entities
         [Required]
         public long Cost { get; set; }
         /// <summary>
-        /// اشتراکی بدون
+        /// اشتراکی بودن
         /// </summary>
       
         public bool IsShared { get; set; }
@@ -43,5 +44,26 @@ namespace Resturant_Backend.Domain.Entities
         /// سفارش دهندگان مشترک
         /// </summary>
         public virtual ICollection<UserOrder> UserOrders { get; set; }
+
+        public Order()
+        {
+
+        }
+        public Order(Guid id,
+           string name,
+              long cost,
+              bool isShared,
+              bool isAccept,
+              DateTimeOffset orderDate,
+              string restaurantId) : base()
+        {
+            Id = id;
+            Name = name;
+            Cost = cost;
+            IsShared = isShared;
+            IsAccept = isAccept;
+            OrderDate = orderDate;
+            RestaurantId = Guid.Parse(restaurantId);
+        }
     }
 }
