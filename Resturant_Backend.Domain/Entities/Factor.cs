@@ -56,7 +56,7 @@ namespace Resturant_Backend.Domain.Entities
         /// <summary>
         /// سفارش ها
         /// </summary>
-        public virtual ICollection<Order> Orders { get; set; }
+      //  public  ICollection<Order> Orders { get; set; }
 
 
 

@@ -33,7 +33,7 @@ namespace Resturant_Backend.Domain.DTO
                 IsClosed = fator.IsClosed,
                 IsDeliveryByCompanyPaid = fator.IsDeliveryByCompanyPaid,
                 Restaurant =fator.Restaurant,
-                Orders=fator.Orders
+               // Orders=fator.Orders
             };
         }
        

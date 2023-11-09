@@ -86,7 +86,8 @@ namespace Resturant_Backend.API
             // Database & Authorization
             builder.Services.AddDbContext<ApplicationDBContext>(options =>
             {
-                options.UseSqlServer(builder.Configuration.GetConnectionString("SqlServerDatabase"));
+               // options.UseSqlServer(builder.Configuration.GetConnectionString("SqlServerDatabase"));
+                options.UseMongoDB(builder.Configuration.GetConnectionString("MONGODatabase"),"Restaurant");
             });
             builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
             {
